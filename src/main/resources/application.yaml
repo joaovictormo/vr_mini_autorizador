@@ -3,4 +3,4 @@ spring:
     name: miniautorizador
   data:
     mongodb:
-      uri: mongodb://user:password@localhost:27017/miniautorizador
+      uri: mongodb://${MONGODB_USER}:${MONGODB_PASS}@localhost:27017/miniautorizador
