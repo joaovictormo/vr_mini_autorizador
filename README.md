@@ -165,3 +165,7 @@ Desafios (não obrigatórios):
 * Spring Validation
 * Spring Security
 
+## Executar a aplicação
+1. Subir servidor MongoDB contendo um banco de dados chamado `miniautorizador` (docker-compose.yml)
+2. Definir variáveis de ambiente com as credenciais de acesso ao banco: MONGODB_USER e MONGODB_PASS.
+3. Executar a aplicação
