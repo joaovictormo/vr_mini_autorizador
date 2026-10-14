@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: miniautorizador
+  data:
+    mongodb:
+      uri: mongodb://${MONGODB_USER}:${MONGODB_PASS}@localhost:27017/miniautorizador
