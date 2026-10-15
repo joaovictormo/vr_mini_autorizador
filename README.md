@@ -150,6 +150,10 @@ Desafios (não obrigatórios):
   Exemplo: dado que um cartão possua R$10.00 de saldo. Se fizermos 2 transações de R$10.00 ao mesmo tempo, em instâncias
   diferentes da aplicação, como o sistema deverá se comportar?
 
+
+## Desenvolvimento
+* O trabalho foi organizado num simples quadro Kanban: https://trello.com/b/8ZfofXyb/teste-tecnico-vr
+
 ## Ferramentas utilizadas
 
 * Java 21
@@ -169,3 +173,4 @@ Desafios (não obrigatórios):
 1. Subir servidor MongoDB contendo um banco de dados chamado `miniautorizador` (docker-compose.yml)
 2. Definir variáveis de ambiente com as credenciais de acesso ao banco: MONGODB_USER e MONGODB_PASS.
 3. Executar a aplicação
+
