@@ -1,6 +1,10 @@
 spring:
   application:
     name: miniautorizador
-  data:
-    mongodb:
-      uri: mongodb://${MONGODB_USER}:${MONGODB_PASS}@localhost:27017/miniautorizador
+  datasource:
+    url: jdbc:mysql://localhost:3306/miniautorizador
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

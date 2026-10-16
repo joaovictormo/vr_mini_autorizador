@@ -164,13 +164,14 @@ Desafios (não obrigatórios):
 
 ## Dependências do projeto
 
-* Spring Data MongoDB
+* Spring Data JPA
+* MySQL Database Driver
 * Spring Web
 * Spring Validation
 * Spring Security
+* Mapstruct
 
 ## Executar a aplicação
-1. Subir servidor MongoDB contendo um banco de dados chamado `miniautorizador` (docker-compose.yml)
-2. Definir variáveis de ambiente com as credenciais de acesso ao banco: MONGODB_USER e MONGODB_PASS.
-3. Executar a aplicação
+1. Subir servidor MySQL contendo um banco de dados chamado `miniautorizador` (docker-compose.yml)
+2. Executar a aplicação
 
