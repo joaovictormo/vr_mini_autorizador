@@ -23,4 +23,13 @@ public class CartaoExceptionHandler {
   ResponseEntity<Void> handleNaoEncontrado(final CartaoNaoEncontradoException exception) {
     return ResponseEntity.notFound().build();
   }
+
+  @ExceptionHandler(TransacaoNaoAutorizadaException.class)
+  public ResponseEntity<String> handleTransacaoNaoAutorizadaException(
+      final TransacaoNaoAutorizadaException ex) {
+
+    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT)
+        .contentType(MediaType.TEXT_PLAIN)
+        .body(ex.getCodigo().name());
+  }
 }
