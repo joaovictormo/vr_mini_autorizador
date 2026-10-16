@@ -147,13 +147,19 @@ Desafios (não obrigatórios):
 * é possível construir a solução inteira sem utilizar nenhum if. Só não pode usar *break* e *continue*! Conceitos de
   orientação a objetos ajudam bastante!
 * como garantir que 2 transações disparadas ao mesmo tempo não causem problemas relacionados à concorrência?
-  Exemplo: dado que um cartão possua R$10.00 de saldo. Se fizermos 2 transações de R$10.00 ao mesmo tempo, em instâncias
+  Exemplo: dado que um cartão possua R\$10.00 de saldo. Se fizermos 2 transações de R\$10.00 ao mesmo tempo, em instâncias
   diferentes da aplicação, como o sistema deverá se comportar?
 
-
 ## Desenvolvimento
+
 * O trabalho foi organizado num simples quadro Kanban: https://trello.com/b/8ZfofXyb/teste-tecnico-vr
-* No repositório Git foi utilizado trunk-based development
+* No repositório Git foi utilizado trunk-based development.
+* Os endpoints incluem algumas validações não citadas nos requisitos para garantir integridade da aplicação.
+* Não foi utilizado if em nenhuma parte do código.
+* Concorrência tratada através da verificação do saldo no comando de `UPDATE`, garantindo atomicidade.
+    * Uso da anotação `@Modifying` para executar a atualização imediatamente.
+    * O banco de dados serializa os `UPDATE` concorrendo ao mesmo registro e verifica novamente a condição `WHERE` com base
+      nos dados atualizados do registro, impedindo que transações simultâneas gastem o mesmo saldo.
 
 ## Ferramentas utilizadas
 
@@ -173,6 +179,7 @@ Desafios (não obrigatórios):
 * Mapstruct
 
 ## Executar a aplicação
+
 1. Subir servidor MySQL contendo um banco de dados chamado `miniautorizador` (docker-compose.yml)
 2. Executar a aplicação
 
