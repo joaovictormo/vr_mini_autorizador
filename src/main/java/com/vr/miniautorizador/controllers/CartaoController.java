@@ -3,7 +3,10 @@ package com.vr.miniautorizador.controllers;
 import com.vr.miniautorizador.dtos.CartaoDTO;
 import com.vr.miniautorizador.services.CartaoService;
 import jakarta.validation.Valid;
+import java.math.BigDecimal;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +26,10 @@ public class CartaoController {
   @ResponseStatus(HttpStatus.CREATED)
   public CartaoDTO cadastrarCartao(@Valid @RequestBody final CartaoDTO cartaoRequest) {
     return cartaoService.cadastrar(cartaoRequest);
+  }
+
+  @GetMapping("/{numeroCartao}")
+  public BigDecimal getSaldoCartao(@PathVariable final String numeroCartao) {
+    return cartaoService.getSaldoCartao(numeroCartao);
   }
 }

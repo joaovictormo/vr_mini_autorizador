@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "cartoes")
@@ -21,12 +22,12 @@ public class Cartao {
   private String senha;
 
   @Column(nullable = false)
-  private double saldo;
+  private BigDecimal saldo;
 
   public Cartao(final String numeroCartao, final String senha) {
     this.numeroCartao = numeroCartao;
     this.senha = senha;
-    this.saldo = 500;
+    this.saldo = new BigDecimal("500.00");
   }
 
   public Cartao() {}
@@ -55,11 +56,11 @@ public class Cartao {
     this.senha = senha;
   }
 
-  public double getSaldo() {
+  public BigDecimal getSaldo() {
     return saldo;
   }
 
-  public void setSaldo(final double saldo) {
+  public void setSaldo(final BigDecimal saldo) {
     this.saldo = saldo;
   }
 }

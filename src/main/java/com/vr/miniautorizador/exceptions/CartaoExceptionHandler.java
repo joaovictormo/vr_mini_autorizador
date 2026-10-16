@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class CartaoExceptionHandler {
+
   @ExceptionHandler(CartaoDuplicadoException.class)
   public ResponseEntity<CartaoDTO> handleCartaoDuplicadoException(
       final CartaoDuplicadoException ex) {
@@ -16,5 +17,10 @@ public class CartaoExceptionHandler {
     return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT)
         .contentType(MediaType.APPLICATION_JSON)
         .body(ex.getCartao());
+  }
+
+  @ExceptionHandler(CartaoNaoEncontradoException.class)
+  ResponseEntity<Void> handleNaoEncontrado(final CartaoNaoEncontradoException exception) {
+    return ResponseEntity.notFound().build();
   }
 }

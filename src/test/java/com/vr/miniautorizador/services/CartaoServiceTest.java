@@ -2,15 +2,18 @@ package com.vr.miniautorizador.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.vr.miniautorizador.dtos.CartaoDTO;
 import com.vr.miniautorizador.exceptions.CartaoDuplicadoException;
+import com.vr.miniautorizador.exceptions.CartaoNaoEncontradoException;
 import com.vr.miniautorizador.mappers.CartaoMapper;
 import com.vr.miniautorizador.models.Cartao;
 import com.vr.miniautorizador.repositories.CartaoRepository;
+import java.math.BigDecimal;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -60,5 +63,32 @@ class CartaoServiceTest {
     assertEquals(dtoEsperado, resultado);
     verify(cartaoRepository).save(org.mockito.ArgumentMatchers.any(Cartao.class));
     verify(cartaoMapper).map(cartaoSalvo);
+  }
+
+  @Test
+  void getSaldoCartao_deveRetornarSaldo_quandoCartaoExiste() {
+    final var numeroCartao = NUMERO_CARTAO;
+    final var cartao = mock(Cartao.class);
+    final var saldoEsperado = new BigDecimal("495.15");
+
+    when(cartaoRepository.findByNumeroCartao(numeroCartao)).thenReturn(Optional.of(cartao));
+    when(cartao.getSaldo()).thenReturn(saldoEsperado);
+
+    final var saldo = cartaoService.getSaldoCartao(numeroCartao);
+
+    assertEquals(saldoEsperado, saldo);
+    verify(cartaoRepository).findByNumeroCartao(numeroCartao);
+  }
+
+  @Test
+  void getSaldoCartao_deveLancarExcecao_quandoCartaoNaoExiste() {
+    final var numeroCartao = NUMERO_CARTAO;
+
+    when(cartaoRepository.findByNumeroCartao(numeroCartao)).thenReturn(Optional.empty());
+
+    assertThrows(
+        CartaoNaoEncontradoException.class, () -> cartaoService.getSaldoCartao(numeroCartao));
+
+    verify(cartaoRepository).findByNumeroCartao(numeroCartao);
   }
 }
