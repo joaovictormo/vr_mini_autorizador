@@ -51,11 +51,11 @@ class CartaoControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-                            {
-                              "numeroCartao": "1234567890123456",
-                              "senha": "1234"
-                            }
-                            """))
+                    {
+                      "numeroCartao": "1234567890123456",
+                      "senha": "1234"
+                    }
+                    """))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.numeroCartao").value(NUMERO_CARTAO))
         .andExpect(jsonPath("$.senha").value(SENHA_CARTAO));
@@ -71,11 +71,11 @@ class CartaoControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-                            {
-                              "numeroCartao": "1234567890123456",
-                              "senha": "1234"
-                            }
-                            """))
+                    {
+                      "numeroCartao": "1234567890123456",
+                      "senha": "1234"
+                    }
+                    """))
         .andExpect(status().isUnauthorized());
 
     verify(cartaoService, never()).cadastrar(any(CartaoDTO.class));
@@ -90,11 +90,11 @@ class CartaoControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-                                {
-                                  "numeroCartao": "123",
-                                  "senha": "12"
-                                }
-                                """))
+                    {
+                      "numeroCartao": "123",
+                      "senha": "12"
+                    }
+                    """))
         .andExpect(status().isBadRequest());
 
     verify(cartaoService, never()).cadastrar(any(CartaoDTO.class));

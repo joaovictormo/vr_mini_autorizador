@@ -153,6 +153,7 @@ Desafios (não obrigatórios):
 
 ## Desenvolvimento
 * O trabalho foi organizado num simples quadro Kanban: https://trello.com/b/8ZfofXyb/teste-tecnico-vr
+* No repositório Git foi utilizado trunk-based development
 
 ## Ferramentas utilizadas
 
