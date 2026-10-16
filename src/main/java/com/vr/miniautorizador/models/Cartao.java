@@ -1,18 +1,26 @@
 package com.vr.miniautorizador.models;
 
-import java.util.UUID;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Document(collection = "cartoes")
+@Entity
+@Table(name = "cartoes")
 public class Cartao {
-  @Id private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-  @Indexed(unique = true)
+  @Column(nullable = false, unique = true)
   private String numeroCartao;
 
+  @Column(nullable = false)
   private String senha;
+
+  @Column(nullable = false)
   private double saldo;
 
   public Cartao(final String numeroCartao, final String senha) {
@@ -23,11 +31,11 @@ public class Cartao {
 
   public Cartao() {}
 
-  public UUID getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(final UUID id) {
+  public void setId(final Long id) {
     this.id = id;
   }
 

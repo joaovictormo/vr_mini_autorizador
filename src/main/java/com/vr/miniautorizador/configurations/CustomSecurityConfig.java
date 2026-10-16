@@ -3,6 +3,7 @@ package com.vr.miniautorizador.configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +20,8 @@ public class CustomSecurityConfig {
       final HttpSecurity http, final CustomBasicAuthenticationEntryPoint entryPoint)
       throws Exception {
 
-    return http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+    return http.csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
         .httpBasic(basic -> basic.authenticationEntryPoint(entryPoint))
         .build();
   }
