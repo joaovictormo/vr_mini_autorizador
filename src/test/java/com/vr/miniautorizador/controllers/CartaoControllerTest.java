@@ -5,14 +5,18 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.vr.miniautorizador.configurations.CustomBasicAuthenticationEntryPoint;
 import com.vr.miniautorizador.configurations.CustomSecurityConfig;
 import com.vr.miniautorizador.dtos.CartaoDTO;
+import com.vr.miniautorizador.exceptions.CartaoNaoEncontradoException;
 import com.vr.miniautorizador.services.CartaoService;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -94,5 +98,42 @@ class CartaoControllerTest {
         .andExpect(status().isBadRequest());
 
     verify(cartaoService, never()).cadastrar(any(CartaoDTO.class));
+  }
+
+  @Test
+  void getSaldoCartao_deveRetornarSaldo_quandoAutenticado() throws Exception {
+    when(cartaoService.getSaldoCartao(NUMERO_CARTAO)).thenReturn(new BigDecimal("125.50"));
+
+    mockMvc
+        .perform(
+            get("/cartoes/{numeroCartao}", NUMERO_CARTAO).with(httpBasic("username", "password")))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(content().string("125.50"));
+
+    verify(cartaoService).getSaldoCartao(NUMERO_CARTAO);
+  }
+
+  @Test
+  void getSaldoCartao_deveRetornar401_quandoNaoAutenticado() throws Exception {
+    mockMvc
+        .perform(
+            get("/cartoes/{numeroCartao}", NUMERO_CARTAO).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnauthorized());
+
+    verify(cartaoService, never()).cadastrar(any(CartaoDTO.class));
+  }
+
+  @Test
+  void getSaldoCartao_deveRetornar404ComBodyVazio_quandoCartaoNaoExiste() throws Exception {
+    when(cartaoService.getSaldoCartao(NUMERO_CARTAO)).thenThrow(new CartaoNaoEncontradoException());
+
+    mockMvc
+        .perform(
+            get("/cartoes/{numeroCartao}", NUMERO_CARTAO).with(httpBasic("username", "password")))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string(""));
+
+    verify(cartaoService).getSaldoCartao(NUMERO_CARTAO);
   }
 }

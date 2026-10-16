@@ -2,9 +2,11 @@ package com.vr.miniautorizador.services;
 
 import com.vr.miniautorizador.dtos.CartaoDTO;
 import com.vr.miniautorizador.exceptions.CartaoDuplicadoException;
+import com.vr.miniautorizador.exceptions.CartaoNaoEncontradoException;
 import com.vr.miniautorizador.mappers.CartaoMapper;
 import com.vr.miniautorizador.models.Cartao;
 import com.vr.miniautorizador.repositories.CartaoRepository;
+import java.math.BigDecimal;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,5 +30,12 @@ public class CartaoService {
             });
 
     return cartaoMapper.map(cartaoRepository.save(novoCartao));
+  }
+
+  public BigDecimal getSaldoCartao(final String numeroCartao) {
+    return cartaoRepository
+        .findByNumeroCartao(numeroCartao)
+        .orElseThrow(CartaoNaoEncontradoException::new)
+        .getSaldo();
   }
 }
